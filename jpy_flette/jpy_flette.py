@@ -9,7 +9,7 @@ import yaml
 
 import nbformat
 from nbconvert import HTMLExporter
-from nbconvert.filters.markdown_mistune import IPythonRenderer, MarkdownWithMath
+from nbconvert.filters.markdown_mistune import IPythonRenderer, MarkdownWithMath, mistune
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -52,7 +52,7 @@ class FletteHTMLExporter(HTMLExporter):
 def cli(configfile):
     # default config
     with open(resource("fletteconf-default.yaml")) as f:
-        config = yaml.load(f)
+        config = yaml.load(f, Loader=yaml.FullLoader)
 
     # load config file
     configfile = os.path.abspath(configfile)
@@ -61,7 +61,7 @@ def cli(configfile):
 
     try:
         with open(configfile) as f:
-            config.update(yaml.load(f))
+            config.update(yaml.load(f, Loader=yaml.FullLoader))
     except:
         pass
 
@@ -131,7 +131,7 @@ def cli(configfile):
 
     # copy theme files
     with open(os.path.join(themedir, "jpy-flette-theme.yaml")) as f:
-        theme_files = yaml.load(f)
+        theme_files = yaml.load(f, Loader=yaml.FullLoader)
 
     with click.progressbar(theme_files, label="copy theme files ") as bar:
         for f in bar:

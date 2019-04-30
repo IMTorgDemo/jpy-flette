@@ -61,3 +61,20 @@ you would obtain
 
 
 ``~/my/directory/docs`` is then ready to be published!
+
+
+
+
+Develop
+------------
+
+
+
+.. code:: bash
+
+    pipenv --three
+    jpy_flette/jpy_flette.py ./docs/notebooks/
+    cd docs/docs
+    python3 -m http.server 8000 --bind 127.0.0.1
+    cd -
+    rm -r docs/docs
