@@ -72,9 +72,31 @@ Develop
 
 .. code:: bash
 
-    pipenv --three
+    pipenv --python 3
+    pipenv install
     jpy_flette/jpy_flette.py ./docs/notebooks/
     cd docs/docs
     python3 -m http.server 8000 --bind 127.0.0.1
+    #clean up
     cd -
     rm -r docs/docs
+    #exit pipenv
+    exit
+
+
+.. code:: bash
+
+    pipenv shell
+    pipenv --version
+    exit
+
+
+
+
+Deploy with GithubPages
+------------
+
+
+????
+
+END

@@ -11,7 +11,8 @@ pyquery = "==1.*"
 ipython = "*"
 pyyaml = "*"
 jupyter-nbextensions-configurator = "*"
-"e1839a8" = {path = ".", editable = true}
+e1839a8 = {path = ".",editable = true}
+pandas = "*"
 
 [dev-packages]
 twine = "*"
@@ -21,4 +22,4 @@ numpy = "*"
 matplotlib = "*"
 
 [requires]
-python_version = "*"
+python_version = "3.7"

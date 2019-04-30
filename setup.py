@@ -10,7 +10,7 @@ from setuptools import find_packages, setup, Command
 NAME = 'jpy_flette'
 REQUIRES_PYTHON = '>=3.5.0'
 REQUIRED = [
-    'nbconvert', "click", "jinja2", "pyquery", "ipython", "pyyaml"
+    'nbconvert', "click", "jinja2", "pyquery", "ipython", "pyyaml","pandas"
 ]
 
 

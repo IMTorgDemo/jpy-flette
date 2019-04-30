@@ -1,3 +1,6 @@
+# desktop
+.DS_Store
+
 # python
 Pipfile.lock
 __pycache__/
@@ -26,3 +29,4 @@ var/
 # testing
 venv*
 test*.py
+.vscode/

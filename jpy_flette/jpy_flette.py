@@ -6,6 +6,7 @@ import click
 from jinja2 import Template
 from pyquery import PyQuery
 import yaml
+import pandas as pd
 
 import nbformat
 from nbconvert import HTMLExporter
@@ -80,17 +81,35 @@ def cli(configfile):
     # directories
     nbdir = os.path.join(os.path.dirname(configfile), config["source"])
     wwwdir = os.path.join(os.path.dirname(configfile), config["target"])
+    metafile = os.path.join(os.path.dirname(configfile), config["metadata"])
 
     # parse notebooks
-    notebooks = sorted(glob.glob(os.path.join(nbdir, "*.ipynb")))
-    if len(notebooks) == 0:
+    notebook_files = sorted(glob.glob(os.path.join(nbdir, "*.ipynb")))
+    if len(notebook_files) == 0:
         print("\033[31merror\033[0m no notebooks found in {}".format(nbdir))
         sys.exit(1)
+    
+    # parse metadata
+    if config["metadata"] != '':
+        try:
+            meta = pd.read_csv(metafile)
+        except:
+            print("\033[31merror\033[0m no .csv file found in {}".format(metafile))
+
+        meta.sort_values(by="index", inplace=True)
+        #str( meta.index[meta.notebook == rel_fn][0] )
+        filenames = [ os.path.splitext(os.path.relpath(nb_fn, nbdir))[0] for nb_fn in notebook_files ]
+        if len(notebook_files) != meta.shape[0]:
+            print("\033[31merror\033[0m notebooks do not match metafile")       #TODO: which ones???
+            sys.exit(1)
+        notebooks = [ os.path.join(nbdir, nb_fn+".ipynb") for nb_fn in meta.notebook]
 
     data = []
     with click.progressbar(notebooks, label="process notebooks") as bar:
         for nb_fn in bar:
-            rel_fn = os.path.splitext(os.path.relpath(nb_fn, nbdir))[0]
+            #nb_fn: '/Users/jason.beach/Desktop/Projects/jpy-flette/docs/notebooks/00.index.ipynb'
+            rel_fn = os.path.splitext(os.path.relpath(nb_fn, nbdir))[0]     
+            #rel_fn: '00.index'
 
             # read notebook
             nb = nbformat.read(nb_fn, as_version=4)
@@ -111,7 +130,11 @@ def cli(configfile):
             body = PyQuery(body).outer_html(method="html")
 
             # template variables
-            htmlfile = rel_fn.split(".", 1)[1]+".html"  # remove numeric prefix
+            if 'meta' in locals():
+                htmlfile = rel_fn+".html"
+                htmlfile_indx = str( meta.index[meta.notebook == rel_fn][0] )  # if metadata file exists use kv (notebook_name, numeric_prefix)
+            else:
+                htmlfile = rel_fn.split(".", 1)[1]+".html"  # remove numeric prefix
             data.append(dict(htmlfile=htmlfile, body=body,
                              title=toc[0]("a").html(method="html"),
                              toc=[t.outer_html(method="html") for t in toc]))

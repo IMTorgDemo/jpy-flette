@@ -1,7 +1,20 @@
+#
+#
+#    * source - the directory with the .ipynb notebooks
+#    * target - the directory with the .html files are relative to the configuration file
+#    * theme - selected theme formatting
+#    * title_prefix - 
+#    * title_suffix - 
+#    * title_sidebar - set to "<auto>", the sidebar title is set based on the first header of the first page (usually your 00.index.ipynb)
+#    * inject (HTML code) - copied at the end of every generated HTML file (before </body>)
+#
+
+
 source: ""
 target: "../docs"
+metadata: "./metadata.csv"
 theme: "flette"
 title_prefix: ""
 title_suffix: ""
-title_sidebar: True
+title_sidebar: ""
 inject: ""
