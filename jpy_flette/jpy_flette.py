@@ -100,7 +100,7 @@ def cli(configfile):
         #str( meta.index[meta.notebook == rel_fn][0] )
         filenames = [ os.path.splitext(os.path.relpath(nb_fn, nbdir))[0] for nb_fn in notebook_files ]
         if len(notebook_files) != meta.shape[0]:
-            print("\033[31merror\033[0m notebooks do not match metafile")       #TODO: which ones???
+            print("\033[31merror\033[0m notebooks do not match metafile")       #TODO: show which ones are missing
             sys.exit(1)
         notebooks = [ os.path.join(nbdir, nb_fn+".ipynb") for nb_fn in meta.notebook]
 
@@ -135,6 +135,7 @@ def cli(configfile):
                 htmlfile_indx = str( meta.index[meta.notebook == rel_fn][0] )  # if metadata file exists use kv (notebook_name, numeric_prefix)
             else:
                 htmlfile = rel_fn.split(".", 1)[1]+".html"  # remove numeric prefix
+            print(htmlfile)
             data.append(dict(htmlfile=htmlfile, body=body,
                              title=toc[0]("a").html(method="html"),
                              toc=[t.outer_html(method="html") for t in toc]))

@@ -65,6 +65,28 @@ you would obtain
 
 
 
+Notebook Requirements
+------------
+
+Notebooks can be indexed one of two ways: i) within the file name (i.e. 00.index.ipynb), ii) within the metadata.csv file.
+
+
+
+All notebooks must conform to the following format:
+* must have a Title
+* does not need Sections
+* # Title
+* ## Section
+* ### SubSection
+
+In addition, the index notebook is used to create the side-bar Title
+
+This will allow the side-bar table-of-contents to be created, correctly.
+
+
+
+
+
 Develop
 ------------
 
